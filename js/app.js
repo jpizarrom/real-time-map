@@ -334,7 +334,7 @@ function refresh() {
 function getHoverData() {
 
   var url = "http://com.cartodb.uselections.s3.amazonaws.com/hover_geoms/cty0921md_01.js";
-//  url = "http://localhost/real-time-map/bin/data.min.js";
+  url = "http://localhost/real-time-map/bin/data.min.js";
 
   $.ajax({ url: url, jsonpCallback: "callback", dataType: "jsonp", success: function(data) {
     hoverData = data;
@@ -349,9 +349,6 @@ function init() {
   // Initialize the popup
   popup = new L.CartoDBPopup();
 
-  // Get the counties' geometries
-  getHoverData();
-
   // Set the map options
   var mapOptions = {
     center: new L.LatLng(CONFIG.lat, CONFIG.lng),
@@ -363,6 +360,7 @@ function init() {
   };
 
   map = new L.Map('map', mapOptions);
+  
   var mapboxUrl = 'http://{s}.tiles.mapbox.com/v3/cartodb.map-1nh578vv/{z}/{x}/{y}.png'
         , mapbox = new L.TileLayer(mapboxUrl, {maxZoom: 18, attribution: "OpenStreetMaps"});
   map.addLayer(mapbox,true);
@@ -372,4 +370,6 @@ function init() {
   });
 
   refresh(); // Go!
+  // Get the counties' geometries
+  getHoverData();
 }
