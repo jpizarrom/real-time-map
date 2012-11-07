@@ -1,30 +1,20 @@
 CONFIG = {
 
-  lat:     30.849,
-  lng:    -28.371,
-  zoom:    3,
+  lat:     -40.19904,
+  lng:     -73.72183,
+  zoom:    8,
   maxZoom: 9,
-  minZoom: 4,
+  minZoom: 0,
 
   // CartoDB user and main table name
-  userName: 'viz2',
+  userName: 'jpizarrom',
   tableName: 'counties',
 
   // We can observe another table and update the map when it's updated
-  watchedUserName: 'viz2',
+  watchedUserName: 'jpizarrom',
   watchedTableName: 'states_results',
 
   style: "#counties { line-width:1; line-color: #ffffff; } \
-<<<<<<< HEAD
-    [status='0']    { polygon-fill: #000000; } \
-    [status='1']    { polygon-fill: #0000FF; } \
-    [status='2']    { polygon-fill: #996633; } \
-    [status='3']    { polygon-fill: #00ffff; } \
-    [status='4']    { polygon-fill: #00ff00; } \
-    [status='5']    { polygon-fill: #ff00ff; } \
-    [status='6']    { polygon-fill: #ff7f00; } \
-    [status='7']    { polygon-fill: #7f007f; } ",
-=======
     [status='0']  { polygon-fill: #000000; } \
     [status='1']    { polygon-fill: #0000FF; } \
     [status='2']     { polygon-fill: #996633; } \
@@ -33,7 +23,6 @@ CONFIG = {
     [status='5']     { polygon-fill: #ff00ff; } \
     [status='6']    { polygon-fill: #ff7f00; } \
     [status='7']     { polygon-fill: #7f007f; } ",
->>>>>>> gh-pages
 
   polygonHoverStyle: { color: "#ff7800", weight: 5, opacity: 0.65, clickable:false },
   polygonClickStyle: { color: "red",     weight: 5, opacity: 0.65, clickable:false }
@@ -204,10 +193,10 @@ function createLayer(version, opacity) {
   return new L.CartoDBLayer({
     map: map,
 
-    tiler_domain: "{s}.viz2.cartodb.com",
-    subdomains: "abcd",
+//    tiler_domain: "{s}.viz2.cartodb.com",
+//    subdomains: "abcd",
 
-    //user_name:  "viz2", // <- if you don't use a CDN put your username here
+    user_name:  CONFIG.userName, // <- if you don't use a CDN put your username here
     table_name: CONFIG.tableName,
     tile_style: CONFIG.style,
     opacity:    opacity,
@@ -344,6 +333,7 @@ function refresh() {
 function getHoverData() {
 
   var url = "http://com.cartodb.uselections.s3.amazonaws.com/hover_geoms/cty0921md_01.js";
+//  url = "http://localhost/real-time-map/bin/data.min.js";
 
   $.ajax({ url: url, jsonpCallback: "callback", dataType: "jsonp", success: function(data) {
     hoverData = data;
