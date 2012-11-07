@@ -2,7 +2,7 @@ CONFIG = {
 
   lat:     -40.19904,
   lng:     -73.72183,
-  zoom:    8,
+  zoom:    7,
   maxZoom: 9,
   minZoom: 0,
 
@@ -189,6 +189,7 @@ function onFeatureHover(e, latlng, pos, data) {
 function createLayer(version, opacity) {
 
   var query = "SELECT st_name, st_usps, counties.the_geom_webmercator, counties.cartodb_id, states_results.gov_result as status, counties.fips as thecode, counties.st_usps as usps FROM counties, states_results WHERE states_results.usps = counties.st_usps AND version="+version;
+  query = "SELECT st_name, st_usps, counties.the_geom_webmercator, counties.cartodb_id, states_results.gov_result as status, counties.fips as thecode, counties.st_usps as usps FROM counties, states_results";
 
   return new L.CartoDBLayer({
     map: map,
@@ -362,7 +363,10 @@ function init() {
   };
 
   map = new L.Map('map', mapOptions);
-
+  var mapboxUrl = 'http://{s}.tiles.mapbox.com/v3/cartodb.map-1nh578vv/{z}/{x}/{y}.png'
+        , mapbox = new L.TileLayer(mapboxUrl, {maxZoom: 18, attribution: "OpenStreetMaps"});
+  map.addLayer(mapbox,true);
+  
   map.on("popupclose", function() {
     map.removeLayer(clickLayer);
   });

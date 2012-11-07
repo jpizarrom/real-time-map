@@ -2,12 +2,12 @@ var $ = require('jquery');
 var http = require('http');
 
 var numDecimals   = 3;
-var table         = "untitled_table";
+var table         = "counties";
 var cartodbUser   = "jpizarrom";
 var resultVarName = "c";
 
 var host = cartodbUser + ".cartodb.com";
-var path = "/api/v2/sql?dp="+numDecimals+"&format=geojson&q=" + escape("SELECT cartodb_id, ST_SIMPLIFY(untitled_table.the_geom, 0.1) as the_geom FROM untitled_table");
+var path = "/api/v2/sql?dp="+numDecimals+"&format=geojson&q=" + escape("SELECT cartodb_id, ST_SIMPLIFY(counties.the_geom, 0.1) as the_geom FROM counties");
 
 var outputObject = {};
 
@@ -40,7 +40,7 @@ callback = function(response) {
       });
     });
 
-    console.log("callback({c:"+JSON.stringify(outputObject).replace(/\"/g,"")+"});");
+    console.log("callback("+JSON.stringify(outputObject).replace(/\"/g,"")+")");
 
   });
 }
