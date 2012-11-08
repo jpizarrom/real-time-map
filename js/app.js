@@ -372,7 +372,7 @@ $("#reg_tab").on('click', function(event) {
     layer.show();
     layer_6.hide();
     layer_8.hide();
-//    getHoverData(4);
+    getHoverData(4);
 });
 $("#prov_tab").on('click', function(event) {
     layer.hide();
