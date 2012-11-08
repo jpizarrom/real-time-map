@@ -353,11 +353,11 @@ function getHoverData(admin_level) {
 
   var url = "http://com.cartodb.uselections.s3.amazonaws.com/hover_geoms/cty0921md_01.js";
   if (admin_level == 4)
-  url = "http://localhost/real-time-map/bin/data.min.js";
+  url = "http://jpizarrom.github.com/real-time-map/bin/data.min.js";
   if (admin_level == 6)
-  url = "http://localhost/real-time-map/bin/data_6.min.js";
+  url = "http://jpizarrom.github.com/real-time-map/bin/data_6.min.js";
   if (admin_level == 8)
-  url = "http://localhost/real-time-map/bin/data_8.min.js";
+  url = "http://jpizarrom.github.com/real-time-map/bin/data_8.min.js";
 //  url = "http://" + CONFIG.userName + ".cartodb.com/api/v2/sql?format=geojson&q=" + escape("SELECT cartodb_id, ST_SIMPLIFY(the_geom, 0.1) as the_geom FROM " + CONFIG.tableName+ " WHERE admin_level='4'");
 
   $.ajax({ url: url, jsonpCallback: "callback", dataType: "jsonp", success: function(data) {
