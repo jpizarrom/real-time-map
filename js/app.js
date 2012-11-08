@@ -2,7 +2,7 @@ CONFIG = {
 
   lat:     -40.19904,
   lng:     -73.72183,
-  zoom:    7,
+  zoom:    5,
   maxZoom: 9,
   minZoom: 0,
 
@@ -45,6 +45,8 @@ map             = null;
 
 var // layers
 layer           = null,
+layer_6         = null,
+layer_8         = null,
 geojsonLayer    = new L.GeoJSON(null),
 clickLayer      = new L.GeoJSON(null);
 
@@ -186,10 +188,10 @@ function onFeatureHover(e, latlng, pos, data) {
   highlightPolygon(data);
 }
 
-function createLayer(version, opacity) {
+function createLayer(version, opacity, admin_level) {
 
   var query = "SELECT st_name, st_usps, counties.the_geom_webmercator, counties.cartodb_id, states_results.gov_result as status, counties.fips as thecode, counties.st_usps as usps FROM counties, states_results WHERE states_results.usps = counties.st_usps AND version="+version;
-  query = "SELECT st_name, st_usps, counties.the_geom_webmercator, counties.cartodb_id, states_results.gov_result as status, counties.fips as thecode, counties.st_usps as usps FROM counties, states_results";
+  query = "SELECT st_name, st_usps, counties.the_geom_webmercator, counties.cartodb_id, states_results.gov_result as status, counties.fips as thecode, counties.st_usps as usps FROM counties, states_results WHERE admin_level='"+admin_level+"'";
 
   return new L.CartoDBLayer({
     map: map,
@@ -298,9 +300,17 @@ function refresh() {
 
       if (!layer) { // create layer
 
-        layer = createLayer(epoch, 1);
-
+        layer = createLayer(epoch, 1, 4);
         map.addLayer(layer, false);
+//        layer.hide();
+
+        layer_6 = createLayer(epoch, 1, 6);
+        map.addLayer(layer_6, false);
+        layer_6.hide();
+
+        layer_8 = createLayer(epoch, 1, 8);
+        map.addLayer(layer_8, false);
+        layer_8.hide();
 
         startStopWatch();
 
@@ -310,9 +320,17 @@ function refresh() {
 
         var opacity = (oldIE) ? 1 : 0; // since IE<9 versions don't support opacity we just create a visible layer
 
-        var layerNew = createLayer(epoch, opacity);
-
+        var layerNew = createLayer(epoch, opacity, 4);
         map.addLayer(layerNew, false);
+//        layer.hide();
+
+        layer_6 = createLayer(epoch, opacity, 8);
+        map.addLayer(layer_6, false);
+        layer_6.hide();
+
+        layer_8 = createLayer(epoch, opacity, 8);
+        map.addLayer(layer_8, false);
+        layer_8.hide();
 
         layerNew.on("load", function() {
           onLayerLoaded(this);
@@ -331,18 +349,43 @@ function refresh() {
 }
 
 // To maximize the feature hover/out speed we load the geometries of the counties in a hash
-function getHoverData() {
+function getHoverData(admin_level) {
 
   var url = "http://com.cartodb.uselections.s3.amazonaws.com/hover_geoms/cty0921md_01.js";
+  if (admin_level == 4)
   url = "http://localhost/real-time-map/bin/data.min.js";
+  if (admin_level == 6)
+  url = "http://localhost/real-time-map/bin/data_6.min.js";
+  if (admin_level == 8)
+  url = "http://localhost/real-time-map/bin/data_8.min.js";
+//  url = "http://" + CONFIG.userName + ".cartodb.com/api/v2/sql?format=geojson&q=" + escape("SELECT cartodb_id, ST_SIMPLIFY(the_geom, 0.1) as the_geom FROM " + CONFIG.tableName+ " WHERE admin_level='4'");
 
   $.ajax({ url: url, jsonpCallback: "callback", dataType: "jsonp", success: function(data) {
     hoverData = data;
+    showMessage("hoverData");
   }});
 
 }
 
 function init() {
+$("#reg_tab").on('click', function(event) {
+    layer.show();
+    layer_6.hide();
+    layer_8.hide();
+//    getHoverData(4);
+});
+$("#prov_tab").on('click', function(event) {
+    layer.hide();
+    layer_6.show();
+    layer_8.hide();
+    getHoverData(6);
+});
+$("#com_tab").on('click', function(event) {
+    layer.hide();
+    layer_6.hide();
+    layer_8.show();
+    getHoverData(8);
+});
 
   setupStopWatch();
 
@@ -371,5 +414,5 @@ function init() {
 
   refresh(); // Go!
   // Get the counties' geometries
-  getHoverData();
+  getHoverData(4);
 }

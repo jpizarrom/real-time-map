@@ -7,7 +7,7 @@ var cartodbUser   = "jpizarrom";
 var resultVarName = "c";
 
 var host = cartodbUser + ".cartodb.com";
-var path = "/api/v2/sql?dp="+numDecimals+"&format=geojson&q=" + escape("SELECT cartodb_id, ST_SIMPLIFY(counties.the_geom, 0.1) as the_geom FROM counties");
+var path = "/api/v2/sql?dp="+numDecimals+"&format=geojson&q=" + escape("SELECT cartodb_id, ST_SIMPLIFY(counties.the_geom, 0.1) as the_geom FROM counties WHERE admin_level='8'");
 
 var outputObject = {};
 
