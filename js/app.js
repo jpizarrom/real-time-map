@@ -353,7 +353,7 @@ function getHoverData(admin_level) {
 
   var url = "http://com.cartodb.uselections.s3.amazonaws.com/hover_geoms/cty0921md_01.js";
   if (admin_level == 4)
-  url = "http://jpizarrom.github.com/real-time-map/bin/data.min.js";
+  url = "http://jpizarrom.github.com/real-time-map/bin/data_4.min.js";
   if (admin_level == 6)
   url = "http://jpizarrom.github.com/real-time-map/bin/data_6.min.js";
   if (admin_level == 8)
