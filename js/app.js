@@ -403,9 +403,9 @@ $("#com_tab").on('click', function(event) {
   };
 
   map = new L.Map('map', mapOptions);
-  
+  var osmAttrib='Map data © OpenStreetMap contributors';
   var mapboxUrl = 'http://{s}.tiles.mapbox.com/v3/cartodb.map-1nh578vv/{z}/{x}/{y}.png'
-        , mapbox = new L.TileLayer(mapboxUrl, {maxZoom: 18, attribution: "OpenStreetMaps"});
+        , mapbox = new L.TileLayer(mapboxUrl, {maxZoom: 18, attribution: osmAttrib});
   map.addLayer(mapbox,true);
   
   map.on("popupclose", function() {

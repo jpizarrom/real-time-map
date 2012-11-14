@@ -174,8 +174,8 @@ a:hover {
   font-family: "Droid Sans", sans-serif;
   z-index: 10000; }
 
-.leaflet-container .leaflet-control-attribution {
-  display: none; }
+//.leaflet-container .leaflet-control-attribution {
+//  display: none; }
 
 .message {
   position: absolute;
